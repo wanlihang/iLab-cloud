@@ -4,13 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi</artifactId>
+    <groupId>com.ruoyi</groupId>
     <version>3.3.0</version>
 
-    <name>ruoyi</name>
-    <url>http://www.ruoyi.vip</url>
-    <description>若依微服务系统</description>
+    <name>iLab</name>
+    <description>在线数据科学实验云服务平台</description>
 
     <properties>
         <ruoyi.version>3.3.0</ruoyi.version>
@@ -156,9 +155,9 @@
             </dependency>
 
             <!-- Collection 增强Java集合框架 -->
-            <dependency> 
-                <groupId>commons-collections</groupId> 
-                <artifactId>commons-collections</artifactId> 
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
                 <version>${commons-collections.version}</version>
             </dependency>
 
@@ -256,6 +255,7 @@
         <module>ruoyi-modules</module>
         <module>ruoyi-api</module>
         <module>ruoyi-common</module>
+        <module>ilab-service</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -276,6 +276,15 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <!-- 一键更新子模块版本号 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>
         </plugins>
