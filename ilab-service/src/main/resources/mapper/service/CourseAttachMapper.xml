@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ilab.service.mapper.CourseAttachMapper">
+
+    <resultMap type="CourseAttach" id="CourseAttachResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="name"    column="name"    />
+        <result property="path"    column="path"    />
+        <result property="disk"    column="disk"    />
+        <result property="size"    column="size"    />
+        <result property="extension"    column="extension"    />
+        <result property="onlyBuyer"    column="only_buyer"    />
+        <result property="downloadTimes"    column="download_times"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+        <result property="deletedAt"    column="deleted_at"    />
+    </resultMap>
+
+    <sql id="selectCourseAttachVo">
+        select id, course_id, name, path, disk, size, extension, only_buyer, download_times, created_at, updated_at, deleted_at from course_attach
+    </sql>
+
+    <select id="selectCourseAttachList" parameterType="CourseAttach" resultMap="CourseAttachResult">
+        <include refid="selectCourseAttachVo"/>
+        <where>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="path != null  and path != ''"> and path = #{path}</if>
+            <if test="disk != null  and disk != ''"> and disk = #{disk}</if>
+            <if test="size != null "> and size = #{size}</if>
+            <if test="extension != null  and extension != ''"> and extension = #{extension}</if>
+            <if test="onlyBuyer != null "> and only_buyer = #{onlyBuyer}</if>
+            <if test="downloadTimes != null "> and download_times = #{downloadTimes}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+            <if test="deletedAt != null "> and deleted_at = #{deletedAt}</if>
+        </where>
+    </select>
+
+    <select id="selectCourseAttachById" parameterType="Long" resultMap="CourseAttachResult">
+        <include refid="selectCourseAttachVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCourseAttach" parameterType="CourseAttach" useGeneratedKeys="true" keyProperty="id">
+        insert into course_attach
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="courseId != null">course_id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="path != null and path != ''">path,</if>
+            <if test="disk != null and disk != ''">disk,</if>
+            <if test="size != null">size,</if>
+            <if test="extension != null and extension != ''">extension,</if>
+            <if test="onlyBuyer != null">only_buyer,</if>
+            <if test="downloadTimes != null">download_times,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+            <if test="deletedAt != null">deleted_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="courseId != null">#{courseId},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="path != null and path != ''">#{path},</if>
+            <if test="disk != null and disk != ''">#{disk},</if>
+            <if test="size != null">#{size},</if>
+            <if test="extension != null and extension != ''">#{extension},</if>
+            <if test="onlyBuyer != null">#{onlyBuyer},</if>
+            <if test="downloadTimes != null">#{downloadTimes},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+            <if test="deletedAt != null">#{deletedAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourseAttach" parameterType="CourseAttach">
+        update course_attach
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="path != null and path != ''">path = #{path},</if>
+            <if test="disk != null and disk != ''">disk = #{disk},</if>
+            <if test="size != null">size = #{size},</if>
+            <if test="extension != null and extension != ''">extension = #{extension},</if>
+            <if test="onlyBuyer != null">only_buyer = #{onlyBuyer},</if>
+            <if test="downloadTimes != null">download_times = #{downloadTimes},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="deletedAt != null">deleted_at = #{deletedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseAttachById" parameterType="Long">
+        delete from course_attach where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseAttachByIds" parameterType="String">
+        delete from course_attach where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

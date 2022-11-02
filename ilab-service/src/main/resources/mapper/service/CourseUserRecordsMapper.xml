@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ilab.service.mapper.CourseUserRecordsMapper">
+
+    <resultMap type="CourseUserRecords" id="CourseUserRecordsResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+        <result property="deletedAt"    column="deleted_at"    />
+        <result property="isWatched"    column="is_watched"    />
+        <result property="watchedAt"    column="watched_at"    />
+        <result property="progress"    column="progress"    />
+    </resultMap>
+
+    <sql id="selectCourseUserRecordsVo">
+        select id, course_id, user_id, created_at, updated_at, deleted_at, is_watched, watched_at, progress from course_user_records
+    </sql>
+
+    <select id="selectCourseUserRecordsList" parameterType="CourseUserRecords" resultMap="CourseUserRecordsResult">
+        <include refid="selectCourseUserRecordsVo"/>
+        <where>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+            <if test="deletedAt != null "> and deleted_at = #{deletedAt}</if>
+            <if test="isWatched != null "> and is_watched = #{isWatched}</if>
+            <if test="watchedAt != null "> and watched_at = #{watchedAt}</if>
+            <if test="progress != null "> and progress = #{progress}</if>
+        </where>
+    </select>
+
+    <select id="selectCourseUserRecordsById" parameterType="Integer" resultMap="CourseUserRecordsResult">
+        <include refid="selectCourseUserRecordsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCourseUserRecords" parameterType="CourseUserRecords" useGeneratedKeys="true" keyProperty="id">
+        insert into course_user_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="courseId != null">course_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+            <if test="deletedAt != null">deleted_at,</if>
+            <if test="isWatched != null">is_watched,</if>
+            <if test="watchedAt != null">watched_at,</if>
+            <if test="progress != null">progress,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="courseId != null">#{courseId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+            <if test="deletedAt != null">#{deletedAt},</if>
+            <if test="isWatched != null">#{isWatched},</if>
+            <if test="watchedAt != null">#{watchedAt},</if>
+            <if test="progress != null">#{progress},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourseUserRecords" parameterType="CourseUserRecords">
+        update course_user_records
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="deletedAt != null">deleted_at = #{deletedAt},</if>
+            <if test="isWatched != null">is_watched = #{isWatched},</if>
+            <if test="watchedAt != null">watched_at = #{watchedAt},</if>
+            <if test="progress != null">progress = #{progress},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseUserRecordsById" parameterType="Integer">
+        delete from course_user_records where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseUserRecordsByIds" parameterType="String">
+        delete from course_user_records where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

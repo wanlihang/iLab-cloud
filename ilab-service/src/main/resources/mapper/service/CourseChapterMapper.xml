@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ilab.service.mapper.CourseChapterMapper">
+
+    <resultMap type="CourseChapter" id="CourseChapterResult">
+        <result property="id"    column="id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="title"    column="title"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+
+    <sql id="selectCourseChapterVo">
+        select id, course_id, title, created_at, updated_at, sort from course_chapter
+    </sql>
+
+    <select id="selectCourseChapterList" parameterType="CourseChapter" resultMap="CourseChapterResult">
+        <include refid="selectCourseChapterVo"/>
+        <where>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+        </where>
+    </select>
+
+    <select id="selectCourseChapterById" parameterType="Integer" resultMap="CourseChapterResult">
+        <include refid="selectCourseChapterVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCourseChapter" parameterType="CourseChapter" useGeneratedKeys="true" keyProperty="id">
+        insert into course_chapter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="courseId != null">course_id,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+            <if test="sort != null">sort,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="courseId != null">#{courseId},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+            <if test="sort != null">#{sort},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourseChapter" parameterType="CourseChapter">
+        update course_chapter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="sort != null">sort = #{sort},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseChapterById" parameterType="Integer">
+        delete from course_chapter where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseChapterByIds" parameterType="String">
+        delete from course_chapter where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

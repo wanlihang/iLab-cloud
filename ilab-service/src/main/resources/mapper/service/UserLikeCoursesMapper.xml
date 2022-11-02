@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ilab.service.mapper.UserLikeCoursesMapper">
+
+    <resultMap type="UserLikeCourses" id="UserLikeCoursesResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+        <result property="deletedAt"    column="deleted_at"    />
+    </resultMap>
+
+    <sql id="selectUserLikeCoursesVo">
+        select id, user_id, course_id, created_at, updated_at, deleted_at from user_like_courses
+    </sql>
+
+    <select id="selectUserLikeCoursesList" parameterType="UserLikeCourses" resultMap="UserLikeCoursesResult">
+        <include refid="selectUserLikeCoursesVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+            <if test="deletedAt != null "> and deleted_at = #{deletedAt}</if>
+        </where>
+    </select>
+
+    <select id="selectUserLikeCoursesById" parameterType="Long" resultMap="UserLikeCoursesResult">
+        <include refid="selectUserLikeCoursesVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertUserLikeCourses" parameterType="UserLikeCourses" useGeneratedKeys="true" keyProperty="id">
+        insert into user_like_courses
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+            <if test="deletedAt != null">deleted_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="courseId != null">#{courseId},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+            <if test="deletedAt != null">#{deletedAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserLikeCourses" parameterType="UserLikeCourses">
+        update user_like_courses
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="deletedAt != null">deleted_at = #{deletedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserLikeCoursesById" parameterType="Long">
+        delete from user_like_courses where id = #{id}
+    </delete>
+
+    <delete id="deleteUserLikeCoursesByIds" parameterType="String">
+        delete from user_like_courses where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

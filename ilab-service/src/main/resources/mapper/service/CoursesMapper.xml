@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ilab.service.mapper.CoursesMapper">
+
+    <resultMap type="Courses" id="CoursesResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="title"    column="title"    />
+        <result property="slug"    column="slug"    />
+        <result property="thumb"    column="thumb"    />
+        <result property="charge"    column="charge"    />
+        <result property="shortDescription"    column="short_description"    />
+        <result property="originalDesc"    column="original_desc"    />
+        <result property="renderDesc"    column="render_desc"    />
+        <result property="seoKeywords"    column="seo_keywords"    />
+        <result property="seoDescription"    column="seo_description"    />
+        <result property="publishedAt"    column="published_at"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+        <result property="deletedAt"    column="deleted_at"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="isRec"    column="is_rec"    />
+        <result property="userCount"    column="user_count"    />
+        <result property="isFree"    column="is_free"    />
+    </resultMap>
+
+    <sql id="selectCoursesVo">
+        select id, user_id, title, slug, thumb, charge, short_description, original_desc, render_desc, seo_keywords, seo_description, published_at, is_show, created_at, updated_at, deleted_at, category_id, is_rec, user_count, is_free from courses
+    </sql>
+
+    <select id="selectCoursesList" parameterType="Courses" resultMap="CoursesResult">
+        <include refid="selectCoursesVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="slug != null  and slug != ''"> and slug = #{slug}</if>
+            <if test="thumb != null  and thumb != ''"> and thumb = #{thumb}</if>
+            <if test="charge != null "> and charge = #{charge}</if>
+            <if test="shortDescription != null  and shortDescription != ''"> and short_description = #{shortDescription}</if>
+            <if test="originalDesc != null  and originalDesc != ''"> and original_desc = #{originalDesc}</if>
+            <if test="renderDesc != null  and renderDesc != ''"> and render_desc = #{renderDesc}</if>
+            <if test="seoKeywords != null  and seoKeywords != ''"> and seo_keywords = #{seoKeywords}</if>
+            <if test="seoDescription != null  and seoDescription != ''"> and seo_description = #{seoDescription}</if>
+            <if test="publishedAt != null "> and published_at = #{publishedAt}</if>
+            <if test="isShow != null "> and is_show = #{isShow}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+            <if test="deletedAt != null "> and deleted_at = #{deletedAt}</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="isRec != null "> and is_rec = #{isRec}</if>
+            <if test="userCount != null "> and user_count = #{userCount}</if>
+            <if test="isFree != null "> and is_free = #{isFree}</if>
+        </where>
+    </select>
+
+    <select id="selectCoursesById" parameterType="Integer" resultMap="CoursesResult">
+        <include refid="selectCoursesVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCourses" parameterType="Courses" useGeneratedKeys="true" keyProperty="id">
+        insert into courses
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="slug != null and slug != ''">slug,</if>
+            <if test="thumb != null and thumb != ''">thumb,</if>
+            <if test="charge != null">charge,</if>
+            <if test="shortDescription != null and shortDescription != ''">short_description,</if>
+            <if test="originalDesc != null and originalDesc != ''">original_desc,</if>
+            <if test="renderDesc != null and renderDesc != ''">render_desc,</if>
+            <if test="seoKeywords != null and seoKeywords != ''">seo_keywords,</if>
+            <if test="seoDescription != null and seoDescription != ''">seo_description,</if>
+            <if test="publishedAt != null">published_at,</if>
+            <if test="isShow != null">is_show,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+            <if test="deletedAt != null">deleted_at,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="isRec != null">is_rec,</if>
+            <if test="userCount != null">user_count,</if>
+            <if test="isFree != null">is_free,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="slug != null and slug != ''">#{slug},</if>
+            <if test="thumb != null and thumb != ''">#{thumb},</if>
+            <if test="charge != null">#{charge},</if>
+            <if test="shortDescription != null and shortDescription != ''">#{shortDescription},</if>
+            <if test="originalDesc != null and originalDesc != ''">#{originalDesc},</if>
+            <if test="renderDesc != null and renderDesc != ''">#{renderDesc},</if>
+            <if test="seoKeywords != null and seoKeywords != ''">#{seoKeywords},</if>
+            <if test="seoDescription != null and seoDescription != ''">#{seoDescription},</if>
+            <if test="publishedAt != null">#{publishedAt},</if>
+            <if test="isShow != null">#{isShow},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+            <if test="deletedAt != null">#{deletedAt},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="isRec != null">#{isRec},</if>
+            <if test="userCount != null">#{userCount},</if>
+            <if test="isFree != null">#{isFree},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourses" parameterType="Courses">
+        update courses
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="slug != null and slug != ''">slug = #{slug},</if>
+            <if test="thumb != null and thumb != ''">thumb = #{thumb},</if>
+            <if test="charge != null">charge = #{charge},</if>
+            <if test="shortDescription != null and shortDescription != ''">short_description = #{shortDescription},</if>
+            <if test="originalDesc != null and originalDesc != ''">original_desc = #{originalDesc},</if>
+            <if test="renderDesc != null and renderDesc != ''">render_desc = #{renderDesc},</if>
+            <if test="seoKeywords != null and seoKeywords != ''">seo_keywords = #{seoKeywords},</if>
+            <if test="seoDescription != null and seoDescription != ''">seo_description = #{seoDescription},</if>
+            <if test="publishedAt != null">published_at = #{publishedAt},</if>
+            <if test="isShow != null">is_show = #{isShow},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="deletedAt != null">deleted_at = #{deletedAt},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="isRec != null">is_rec = #{isRec},</if>
+            <if test="userCount != null">user_count = #{userCount},</if>
+            <if test="isFree != null">is_free = #{isFree},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCoursesById" parameterType="Integer">
+        delete from courses where id = #{id}
+    </delete>
+
+    <delete id="deleteCoursesByIds" parameterType="String">
+        delete from courses where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

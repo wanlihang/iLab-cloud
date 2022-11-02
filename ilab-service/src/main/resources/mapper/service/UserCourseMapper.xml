@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ilab.service.mapper.UserCourseMapper">
+
+    <resultMap type="UserCourse" id="UserCourseResult">
+        <result property="userId"    column="user_id"    />
+        <result property="courseId"    column="course_id"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="charge"    column="charge"    />
+    </resultMap>
+
+    <sql id="selectUserCourseVo">
+        select user_id, course_id, created_at, charge from user_course
+    </sql>
+
+    <select id="selectUserCourseList" parameterType="UserCourse" resultMap="UserCourseResult">
+        <include refid="selectUserCourseVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="charge != null "> and charge = #{charge}</if>
+        </where>
+    </select>
+
+    <select id="selectUserCourseByUserId" parameterType="Long" resultMap="UserCourseResult">
+        <include refid="selectUserCourseVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertUserCourse" parameterType="UserCourse">
+        insert into user_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="courseId != null">course_id,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="charge != null">charge,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="courseId != null">#{courseId},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="charge != null">#{charge},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserCourse" parameterType="UserCourse">
+        update user_course
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="charge != null">charge = #{charge},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteUserCourseByUserId" parameterType="Long">
+        delete from user_course where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteUserCourseByUserIds" parameterType="String">
+        delete from user_course where user_id in
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

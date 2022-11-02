@@ -4,6 +4,9 @@ server:
 
 # Spring
 spring:
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive
   application:
     # 应用名称
     name: ilab-service

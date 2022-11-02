@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ilab.service.mapper.CourseCategoriesMapper">
+
+    <resultMap type="CourseCategories" id="CourseCategoriesResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="parentChain"    column="parent_chain"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="sort"    column="sort"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+        <result property="deletedAt"    column="deleted_at"    />
+    </resultMap>
+
+    <sql id="selectCourseCategoriesVo">
+        select id, name, parent_id, parent_chain, is_show, sort, created_at, updated_at, deleted_at from course_categories
+    </sql>
+
+    <select id="selectCourseCategoriesList" parameterType="CourseCategories" resultMap="CourseCategoriesResult">
+        <include refid="selectCourseCategoriesVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="parentChain != null  and parentChain != ''"> and parent_chain = #{parentChain}</if>
+            <if test="isShow != null "> and is_show = #{isShow}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+            <if test="deletedAt != null "> and deleted_at = #{deletedAt}</if>
+        </where>
+    </select>
+
+    <select id="selectCourseCategoriesById" parameterType="Integer" resultMap="CourseCategoriesResult">
+        <include refid="selectCourseCategoriesVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCourseCategories" parameterType="CourseCategories" useGeneratedKeys="true" keyProperty="id">
+        insert into course_categories
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="parentChain != null and parentChain != ''">parent_chain,</if>
+            <if test="isShow != null">is_show,</if>
+            <if test="sort != null">sort,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+            <if test="deletedAt != null">deleted_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="parentChain != null and parentChain != ''">#{parentChain},</if>
+            <if test="isShow != null">#{isShow},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+            <if test="deletedAt != null">#{deletedAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourseCategories" parameterType="CourseCategories">
+        update course_categories
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="parentChain != null and parentChain != ''">parent_chain = #{parentChain},</if>
+            <if test="isShow != null">is_show = #{isShow},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="deletedAt != null">deleted_at = #{deletedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseCategoriesById" parameterType="Integer">
+        delete from course_categories where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseCategoriesByIds" parameterType="String">
+        delete from course_categories where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
