@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ilab.service.mapper.CourseLabEnvMapper">
+
+    <resultMap type="com.ilab.service.domain.CourseLabEnv" id="CourseLabEnvResult">
+        <result property="id"    column="id"    />
+        <result property="envId"    column="env_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="dockerImageTag"    column="docker_image_tag"    />
+        <result property="taskExecScript"    column="task_exec_script"    />
+        <result property="description"    column="description"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectCourseLabEnvVo">
+        select id, env_id, gmt_create, gmt_modified, docker_image_tag, task_exec_script, description, is_deleted from course_lab_env
+    </sql>
+
+    <select id="selectCourseLabEnvList" parameterType="com.ilab.service.domain.CourseLabEnv" resultMap="CourseLabEnvResult">
+        <include refid="selectCourseLabEnvVo"/>
+        <where>
+            <if test="envId != null "> and env_id = #{envId}</if>
+            <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+            <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+            <if test="dockerImageTag != null  and dockerImageTag != ''"> and docker_image_tag = #{dockerImageTag}</if>
+            <if test="taskExecScript != null  and taskExecScript != ''"> and task_exec_script = #{taskExecScript}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="isDeleted != null  and isDeleted != ''"> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+
+    <select id="selectCourseLabEnvById" parameterType="Integer" resultMap="CourseLabEnvResult">
+        <include refid="selectCourseLabEnvVo"/>
+        where id = #{id}
+        and is_deleted = "n"
+    </select>
+
+    <insert id="insertCourseLabEnv" parameterType="com.ilab.service.domain.CourseLabEnv" useGeneratedKeys="true" keyProperty="id">
+        insert into course_lab_env
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="envId != null">env_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+            <if test="dockerImageTag != null">docker_image_tag,</if>
+            <if test="taskExecScript != null">task_exec_script,</if>
+            <if test="description != null">description,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="envId != null">#{envId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+            <if test="dockerImageTag != null">#{dockerImageTag},</if>
+            <if test="taskExecScript != null">#{taskExecScript},</if>
+            <if test="description != null">#{description},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourseLabEnv" parameterType="com.ilab.service.domain.CourseLabEnv">
+        update course_lab_env
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="envId != null">env_id = #{envId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+            <if test="dockerImageTag != null">docker_image_tag = #{dockerImageTag},</if>
+            <if test="taskExecScript != null">task_exec_script = #{taskExecScript},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseLabEnvById" parameterType="Integer">
+        delete from course_lab_env where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseLabEnvByIds" parameterType="String">
+        delete from course_lab_env where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
