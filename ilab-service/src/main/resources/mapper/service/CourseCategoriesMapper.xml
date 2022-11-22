@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ilab.service.mapper.CourseCategoriesMapper">
 
-    <resultMap type="CourseCategories" id="CourseCategoriesResult">
+    <resultMap type="com.ilab.service.domain.CourseCategories" id="CourseCategoriesResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="parentId"    column="parent_id"    />
@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, name, parent_id, parent_chain, is_show, sort, created_at, updated_at, deleted_at from course_categories
     </sql>
 
-    <select id="selectCourseCategoriesList" parameterType="CourseCategories" resultMap="CourseCategoriesResult">
+    <select id="selectCourseCategoriesList" parameterType="com.ilab.service.domain.CourseCategories" resultMap="CourseCategoriesResult">
         <include refid="selectCourseCategoriesVo"/>
         <where>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
-    <insert id="insertCourseCategories" parameterType="CourseCategories" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCourseCategories" parameterType="com.ilab.service.domain.CourseCategories" useGeneratedKeys="true" keyProperty="id">
         insert into course_categories
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">name,</if>
@@ -63,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCourseCategories" parameterType="CourseCategories">
+    <update id="updateCourseCategories" parameterType="com.ilab.service.domain.CourseCategories">
         update course_categories
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null and name != ''">name = #{name},</if>

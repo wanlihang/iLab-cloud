@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ilab.service.mapper.CourseAttachMapper">
 
-    <resultMap type="CourseAttach" id="CourseAttachResult">
+    <resultMap type="com.ilab.service.domain.CourseAttach" id="CourseAttachResult">
         <result property="id"    column="id"    />
         <result property="courseId"    column="course_id"    />
         <result property="name"    column="name"    />
@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, course_id, name, path, disk, size, extension, only_buyer, download_times, created_at, updated_at, deleted_at from course_attach
     </sql>
 
-    <select id="selectCourseAttachList" parameterType="CourseAttach" resultMap="CourseAttachResult">
+    <select id="selectCourseAttachList" parameterType="com.ilab.service.domain.CourseAttach" resultMap="CourseAttachResult">
         <include refid="selectCourseAttachVo"/>
         <where>
             <if test="courseId != null "> and course_id = #{courseId}</if>
@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
-    <insert id="insertCourseAttach" parameterType="CourseAttach" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCourseAttach" parameterType="com.ilab.service.domain.CourseAttach" useGeneratedKeys="true" keyProperty="id">
         insert into course_attach
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="courseId != null">course_id,</if>
@@ -75,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCourseAttach" parameterType="CourseAttach">
+    <update id="updateCourseAttach" parameterType="com.ilab.service.domain.CourseAttach">
         update course_attach
         <trim prefix="SET" suffixOverrides=",">
             <if test="courseId != null">course_id = #{courseId},</if>

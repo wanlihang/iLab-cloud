@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ilab.service.mapper.UserCourseMapper">
 
-    <resultMap type="UserCourse" id="UserCourseResult">
+    <resultMap type="com.ilab.service.domain.UserCourse" id="UserCourseResult">
         <result property="userId"    column="user_id"    />
         <result property="courseId"    column="course_id"    />
         <result property="createdAt"    column="created_at"    />
@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select user_id, course_id, created_at, charge from user_course
     </sql>
 
-    <select id="selectUserCourseList" parameterType="UserCourse" resultMap="UserCourseResult">
+    <select id="selectUserCourseList" parameterType="com.ilab.service.domain.UserCourse" resultMap="UserCourseResult">
         <include refid="selectUserCourseVo"/>
         <where>
             <if test="userId != null "> and user_id = #{userId}</if>
@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where user_id = #{userId}
     </select>
 
-    <insert id="insertUserCourse" parameterType="UserCourse">
+    <insert id="insertUserCourse" parameterType="com.ilab.service.domain.UserCourse">
         insert into user_course
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">user_id,</if>
@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateUserCourse" parameterType="UserCourse">
+    <update id="updateUserCourse" parameterType="com.ilab.service.domain.UserCourse">
         update user_course
         <trim prefix="SET" suffixOverrides=",">
             <if test="courseId != null">course_id = #{courseId},</if>

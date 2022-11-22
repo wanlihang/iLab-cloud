@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ilab.service.mapper.CourseUserRecordsMapper">
 
-    <resultMap type="CourseUserRecords" id="CourseUserRecordsResult">
+    <resultMap type="com.ilab.service.domain.CourseUserRecords" id="CourseUserRecordsResult">
         <result property="id"    column="id"    />
         <result property="courseId"    column="course_id"    />
         <result property="userId"    column="user_id"    />
@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, course_id, user_id, created_at, updated_at, deleted_at, is_watched, watched_at, progress from course_user_records
     </sql>
 
-    <select id="selectCourseUserRecordsList" parameterType="CourseUserRecords" resultMap="CourseUserRecordsResult">
+    <select id="selectCourseUserRecordsList" parameterType="com.ilab.service.domain.CourseUserRecords" resultMap="CourseUserRecordsResult">
         <include refid="selectCourseUserRecordsVo"/>
         <where>
             <if test="courseId != null "> and course_id = #{courseId}</if>
@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
-    <insert id="insertCourseUserRecords" parameterType="CourseUserRecords" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCourseUserRecords" parameterType="com.ilab.service.domain.CourseUserRecords" useGeneratedKeys="true" keyProperty="id">
         insert into course_user_records
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="courseId != null">course_id,</if>
@@ -63,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCourseUserRecords" parameterType="CourseUserRecords">
+    <update id="updateCourseUserRecords" parameterType="com.ilab.service.domain.CourseUserRecords">
         update course_user_records
         <trim prefix="SET" suffixOverrides=",">
             <if test="courseId != null">course_id = #{courseId},</if>
