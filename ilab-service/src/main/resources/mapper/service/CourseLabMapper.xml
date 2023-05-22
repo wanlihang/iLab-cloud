@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ilab.service.mapper.CourseLabMapper">
+
+    <resultMap type="com.ilab.service.domain.CourseLab" id="CourseLabResult">
+        <result property="id" column="id"/>
+        <result property="labId" column="lab_id"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+        <result property="chapterId" column="chapter_id"/>
+        <result property="coursewarePath" column="courseware_path"/>
+        <result property="labEnvId" column="lab_env_id"/>
+        <result property="labEnvPath" column="lab_env_path"/>
+        <result property="envType" column="env_type"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
+
+    <sql id="selectCourseLabVo">
+        select id,
+               lab_id,
+               gmt_create,
+               gmt_modified,
+               chapter_id,
+               courseware_path,
+               lab_env_id,
+               lab_env_path,
+               env_type,
+               is_deleted
+        from course_lab
+    </sql>
+
+    <select id="selectCourseLabList" parameterType="com.ilab.service.domain.CourseLab" resultMap="CourseLabResult"
+            resultType="com.ilab.service.domain.CourseLab">
+        <include refid="selectCourseLabVo"/>
+        <where>
+            <if test="labId != null ">and lab_id = #{labId}</if>
+            <if test="gmtCreate != null ">and gmt_create = #{gmtCreate}</if>
+            <if test="gmtModified != null ">and gmt_modified = #{gmtModified}</if>
+            <if test="chapterId != null ">and chapter_id = #{chapterId}</if>
+            <if test="coursewarePath != null  and coursewarePath != ''">and courseware_path = #{coursewarePath}</if>
+            <if test="labEnvId != null ">and lab_env_id = #{labEnvId}</if>
+            <if test="labEnvPath != null  and labEnvPath != ''">and lab_env_path = #{labEnvPath}</if>
+            <if test="envType != null  and envType != ''">and env_type = #{envType}</if>
+            <if test="isDeleted != null  and isDeleted != ''">and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+
+    <select id="selectCourseLabById" parameterType="Integer" resultMap="CourseLabResult"
+            resultType="com.ilab.service.domain.CourseLab">
+        <include refid="selectCourseLabVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCourseLab" parameterType="com.ilab.service.domain.CourseLab" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into course_lab
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="labId != null">lab_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+            <if test="chapterId != null">chapter_id,</if>
+            <if test="coursewarePath != null">courseware_path,</if>
+            <if test="labEnvId != null">lab_env_id,</if>
+            <if test="labEnvPath != null">lab_env_path,</if>
+            <if test="envType != null">env_type,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="labId != null">#{labId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+            <if test="chapterId != null">#{chapterId},</if>
+            <if test="coursewarePath != null">#{coursewarePath},</if>
+            <if test="labEnvId != null">#{labEnvId},</if>
+            <if test="labEnvPath != null">#{labEnvPath},</if>
+            <if test="envType != null">#{envType},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCourseLab" parameterType="com.ilab.service.domain.CourseLab">
+        update course_lab
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="labId != null">lab_id = #{labId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+            <if test="chapterId != null">chapter_id = #{chapterId},</if>
+            <if test="coursewarePath != null">courseware_path = #{coursewarePath},</if>
+            <if test="labEnvId != null">lab_env_id = #{labEnvId},</if>
+            <if test="labEnvPath != null">lab_env_path = #{labEnvPath},</if>
+            <if test="envType != null">env_type = #{envType},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseLabById" parameterType="Integer">
+        delete
+        from course_lab
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseLabByIds" parameterType="String">
+        delete from course_lab where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
